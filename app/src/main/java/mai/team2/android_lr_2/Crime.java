@@ -13,7 +13,7 @@ public class Crime {
     public Crime() {
         mId = UUID.randomUUID();   //генерация id
         mDate = new Date();        // определение
-        mRequiresPolice = false;
+        mRequiresPolice = true;
     }
 
     public UUID getId() {
