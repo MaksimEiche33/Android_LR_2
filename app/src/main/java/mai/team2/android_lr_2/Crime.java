@@ -8,10 +8,12 @@ public class Crime {
     private String mTitle; // название преступления
     private Date mDate;  //
     private boolean mSolved; // состояние преступления раскрыто/не раскрыто
+    private boolean mRequiresPolice;
 
     public Crime() {
         mId = UUID.randomUUID();   //генерация id
         mDate = new Date();        // определение
+        mRequiresPolice = false;
     }
 
     public UUID getId() {
@@ -34,5 +36,11 @@ public class Crime {
     }
     public void setSolved(boolean solved) {
         mSolved = solved;
+    }
+    public boolean isRequiresPolice() {
+        return mRequiresPolice;
+    }
+    public void setRequiresPolice(boolean RequiresPolice) {
+        mRequiresPolice = RequiresPolice;
     }
 }

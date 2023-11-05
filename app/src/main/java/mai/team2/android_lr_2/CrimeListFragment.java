@@ -48,7 +48,8 @@ public class CrimeListFragment extends Fragment{
         private TextView mDateTextView;
         private Crime mCrime;
         public CrimeHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.list_item_crime, parent, false));
+            //super(inflater.inflate(R.layout.list_item_crime, parent, false));
+            super(inflater);
             itemView.setOnClickListener(this);
             mTitleTextView = (TextView) itemView.findViewById(R.id.crime_title);
             mDateTextView = (TextView) itemView.findViewById(R.id.crime_date);
@@ -66,13 +67,24 @@ public class CrimeListFragment extends Fragment{
         }
     }
     private class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder> {
+        private final int TYPE_ITEM_NORMAL  = 0;     // типы предсталения СТРОК
+        private final int TYPE_ITEM_REQUIRE_SPOLICE = 1;
         private List<Crime> mCrimes;
         public CrimeAdapter(List<Crime> crimes) {
             mCrimes = crimes;
         }
         @Override
         public CrimeHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());x`x
+
+            switch (viewType) {
+                case TYPE_ITEM_NORMAL:
+                    layoutInflater.inflate(R.layout.list_item_crime, parent, false);
+                    break;
+                case TYPE_ITEM_REQUIRE_SPOLICE:
+                    layoutInflater.inflate(R.layout.list_item_crime_requires_police, parent, false);
+            }
+
             return new CrimeHolder(layoutInflater, parent);
         }
         @Override
@@ -83,6 +95,12 @@ public class CrimeListFragment extends Fragment{
         @Override
         public int getItemCount() {
             return mCrimes.size();
+        }
+        @Override
+        public int getItemViewType(int position) {
+            if (mCrimes.get(position).isRequiresPolice() == false)
+                return TYPE_ITEM_NORMAL;    // условие для определения айтем какого типа выводить в конкретной позиции
+            else return TYPE_ITEM_REQUIRE_SPOLICE;
         }
     }
 }
