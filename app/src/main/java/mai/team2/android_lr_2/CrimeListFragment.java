@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,8 @@ import java.util.List;
 public class CrimeListFragment extends Fragment{
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
+    private int mIdModifiedElement; // добавлено для упражнения из 10 главы
+
     @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,11 +39,22 @@ public class CrimeListFragment extends Fragment{
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
+    }
     private void updateUI() {
         CrimeLab crimeLab = CrimeLab.get(getActivity());
         List<Crime> crimes = crimeLab.getCrimes();
-        mAdapter = new CrimeAdapter(crimes);
-        mCrimeRecyclerView.setAdapter(mAdapter);
+
+        if (mAdapter == null) {
+            mAdapter = new CrimeAdapter(crimes);
+            mCrimeRecyclerView.setAdapter(mAdapter);
+        } else {
+            mAdapter.notifyItemChanged(mIdModifiedElement);// переделано для упражнения из 10 главы
+            //mAdapter.notifyDataSetChanged();
+        }
     }
 
     private class CrimeHolder extends RecyclerView.ViewHolder
@@ -49,6 +63,7 @@ public class CrimeListFragment extends Fragment{
         private TextView mDateTextView;
         private ImageView mSolvedImageView;
         private Crime mCrime;
+        private int mPosition; // добавлено для упражнения из 10 главы
         public CrimeHolder(View v) {
             //super(inflater.inflate(R.layout.list_item_crime, parent, false));
             super(v);                                                             // переделано для упражнения из 8 главы
@@ -57,17 +72,19 @@ public class CrimeListFragment extends Fragment{
             mDateTextView = (TextView) itemView.findViewById(R.id.crime_date);
             mSolvedImageView = (ImageView) itemView.findViewById(R.id.crime_solved);
         }
-        public void bind(Crime crime) {
+        public void bind(Crime crime, int position) {
+            mPosition = position;
             mCrime = crime;
             mTitleTextView.setText(mCrime.getTitle());
             mDateTextView.setText(mCrime.getDate());
-            mCrime = crime;
+            mSolvedImageView.setVisibility(crime.isSolved() ? View.VISIBLE :
+                    View.GONE);
         }
         @Override
         public void onClick(View view) {
-            Toast.makeText(getActivity(),
-                            mCrime.getTitle() + " clicked!", Toast.LENGTH_SHORT)
-                    .show();
+            Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
+            startActivity(intent);
+            mIdModifiedElement = mPosition;   // добавлено для упражнения из 10 главы
         }
     }
     private class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder> {
@@ -95,7 +112,7 @@ public class CrimeListFragment extends Fragment{
         @Override
         public void onBindViewHolder(CrimeHolder holder, int position) {
             Crime crime = mCrimes.get(position);
-            holder.bind(crime);
+            holder.bind(crime, position);
         }
         @Override
         public int getItemCount() {
