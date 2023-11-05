@@ -1,5 +1,6 @@
 package mai.team2.android_lr_2;
 
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.UUID;
 
@@ -13,7 +14,7 @@ public class Crime {
     public Crime() {
         mId = UUID.randomUUID();   //генерация id
         mDate = new Date();        // определение
-        mRequiresPolice = true;
+        mRequiresPolice = false;
     }
 
     public UUID getId() {
@@ -25,8 +26,8 @@ public class Crime {
     public void setTitle(String title) {
         mTitle = title;
     }
-    public Date getDate() {
-        return mDate;
+    public String getDate() {
+        return DateFormat.getDateInstance().format(mDate);
     }
     public void setDate(Date date) {
         mDate = date;

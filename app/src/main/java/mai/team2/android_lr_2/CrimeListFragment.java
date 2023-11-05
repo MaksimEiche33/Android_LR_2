@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,18 +47,21 @@ public class CrimeListFragment extends Fragment{
             implements View.OnClickListener {
         private TextView mTitleTextView;
         private TextView mDateTextView;
+        private ImageView mSolvedImageView;
         private Crime mCrime;
         public CrimeHolder(View v) {
             //super(inflater.inflate(R.layout.list_item_crime, parent, false));
-            super(v);
+            super(v);                                                             // переделано для упражнения из 8 главы
             itemView.setOnClickListener(this);
             mTitleTextView = (TextView) itemView.findViewById(R.id.crime_title);
             mDateTextView = (TextView) itemView.findViewById(R.id.crime_date);
+            mSolvedImageView = (ImageView) itemView.findViewById(R.id.crime_solved);
         }
         public void bind(Crime crime) {
             mCrime = crime;
             mTitleTextView.setText(mCrime.getTitle());
-            mDateTextView.setText(mCrime.getDate().toString());
+            mDateTextView.setText(mCrime.getDate());
+            mCrime = crime;
         }
         @Override
         public void onClick(View view) {
@@ -76,7 +80,7 @@ public class CrimeListFragment extends Fragment{
         @Override
         public CrimeHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            View v = layoutInflater.inflate(R.layout.list_item_crime, parent, false);;
+            View v = layoutInflater.inflate(R.layout.list_item_crime, parent, false); // код для упражнения из 8 главы
 
             switch (viewType) {
                 case TYPE_ITEM_NORMAL:
