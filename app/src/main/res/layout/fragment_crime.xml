@@ -34,13 +34,16 @@
                     android:id="@+id/crime_photo"
                     android:layout_width="102dp"
                     android:layout_height="107dp"
-                    app:srcCompat="@drawable/bdfccdc82b85cc712b9b5" />
+                    app:srcCompat="@drawable/bdfccdc82b85cc712b9b5"
+                    android:contentDescription="@string/crime_photo_no_image_description"
+                    android:focusable="true" />
 
                 <ImageButton
                     android:id="@+id/crime_camera"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@android:drawable/ic_menu_camera" />
+                    app:srcCompat="@android:drawable/ic_menu_camera"
+                    android:contentDescription="@string/crime_photo_button_description" />
             </LinearLayout>
 
             <LinearLayout
@@ -53,7 +56,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/crime_title_label"
-                    android:textSize="25dp" />
+                    android:textSize="25dp"
+                    android:labelFor="@+id/crime_title"/>
 
                 <EditText
 
