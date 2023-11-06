@@ -12,9 +12,15 @@ public class Crime {
     private boolean mRequiresPolice;
 
     public Crime() {
-        mId = UUID.randomUUID();   //генерация id
-        mDate = new Date();        // определение
-        mRequiresPolice = false;
+        /*mId = UUID.randomUUID();   //генерация id
+        mDate = new Date();        // определение*/
+        this(UUID.randomUUID());
+        /*mRequiresPolice = false;*/
+    }
+
+    public Crime(UUID id) {
+        mId = id;
+        mDate = new Date();
     }
 
     public UUID getId() {
