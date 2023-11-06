@@ -43,12 +43,12 @@ public class CrimeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {     // вызывается при создании
         super.onCreate(savedInstanceState);
+
         UUID crimeId = (UUID) getArguments().getSerializable(ARG_CRIME_ID);
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
     }
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {                                     // создание и настройка представления фрагмента
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {                                     // создание и настройка представления фрагмента
         View v = inflater.inflate(R.layout.fragment_crime, container, false);
         mTitleField = (EditText) v.findViewById(R.id.crime_title);
         mTitleField.setText(mCrime.getTitle());
