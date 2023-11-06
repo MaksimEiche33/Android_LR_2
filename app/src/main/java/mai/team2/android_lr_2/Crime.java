@@ -9,13 +9,13 @@ public class Crime {
     private String mTitle; // название преступления
     private Date mDate;  //
     private boolean mSolved; // состояние преступления раскрыто/не раскрыто
+
+    private String mSuspect; // имя подозреваемого
     private boolean mRequiresPolice;
+    private String suspect;
 
     public Crime() {
-        /*mId = UUID.randomUUID();   //генерация id
-        mDate = new Date();        // определение*/
         this(UUID.randomUUID());
-        /*mRequiresPolice = false;*/
     }
 
     public Crime(UUID id) {
@@ -30,6 +30,7 @@ public class Crime {
         return mTitle;
     }
     public void setTitle(String title) {
+
         mTitle = title;
     }
     public Date getDate() {
@@ -43,12 +44,23 @@ public class Crime {
         return mSolved;
     }
     public void setSolved(boolean solved) {
+
         mSolved = solved;
+    }
+    public String getmSuspect(){
+        return mSuspect;
+    }
+    public void setSuspect(String suspect) {
+        mSuspect = suspect;
     }
     public boolean isRequiresPolice() {
         return mRequiresPolice;
     }
     public void setRequiresPolice(boolean RequiresPolice) {
         mRequiresPolice = RequiresPolice;
+    }
+
+    public String getSuspect() {
+        return suspect;
     }
 }
