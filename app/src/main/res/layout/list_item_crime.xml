@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/aaaaaa">
 
     <TextView
         android:id="@+id/crime_title"
@@ -13,8 +14,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
         android:text="crime_title"
-        android:textSize="18dp"
         android:textColor="@color/black"
+        android:textSize="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.033"
@@ -42,10 +43,11 @@
         android:layout_width="60dp"
         android:layout_height="57dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="32dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/naruchniki" />
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/bbbbb" />
 </androidx.constraintlayout.widget.ConstraintLayout>
