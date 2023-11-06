@@ -58,6 +58,7 @@ public class CrimeListFragment extends Fragment{
             mAdapter.notifyItemChanged(mIdModifiedElement);// переделано для упражнения из 10 главы
             //mAdapter.notifyDataSetChanged();
         }
+        updateSubtitle();
     }
 
     private class CrimeHolder extends RecyclerView.ViewHolder

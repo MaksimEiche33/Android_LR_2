@@ -16,13 +16,8 @@ public class CrimeLab {
         return sCrimeLab;
     }
     private CrimeLab(Context context) { //Создание списка List объектов Crime
-        mCrimes = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            Crime crime = new Crime();
-            crime.setTitle("Crime #" + i);
-            crime.setSolved(i % 2 == 0); // Для каждого второго объекта
-            mCrimes.add(crime);
-        }
+        mContext = context.getApplicationContext();
+        mDatabase = new CrimeBaseHelper(mContext).getWritableDatabase(); // подключение к базе данных и работа с ней (связь данного класса с базой данных)
     }
     public List<Crime> getCrimes() {
         return mCrimes;
