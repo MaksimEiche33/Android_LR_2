@@ -6,11 +6,11 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/bdfccdc82b85cc712b9b5"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/bdfccdc82b85cc712b9b5"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Android_LR_2"
+        android:theme="@style/AppTheme"
         tools:targetApi="31"
 
         >
@@ -22,7 +22,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".CrimeActivity">
+        <activity
+            android:name=".CrimeActivity"
+            android:parentActivityName=".CrimeListActivity">
         </activity>
 
     </application>
