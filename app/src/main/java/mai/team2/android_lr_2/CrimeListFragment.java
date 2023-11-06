@@ -1,5 +1,7 @@
 package mai.team2.android_lr_2;
 
+import static java.text.DateFormat.*;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -16,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
 import java.util.List;
 
 public class CrimeListFragment extends Fragment{
@@ -76,7 +79,7 @@ public class CrimeListFragment extends Fragment{
             mPosition = position;
             mCrime = crime;
             mTitleTextView.setText(mCrime.getTitle());
-            mDateTextView.setText(mCrime.getDate());
+            mDateTextView.setText(getDateInstance().format(mCrime.getDate()));
             mSolvedImageView.setVisibility(crime.isSolved() ? View.VISIBLE :
                     View.GONE);
         }
