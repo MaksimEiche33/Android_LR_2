@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "mai.team2.android_lr_2"
-        minSdk 28
+        minSdk 29
         targetSdk 33
         versionCode 1
         versionName "1.0"
