@@ -24,6 +24,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 
 import androidx.annotation.Nullable;
@@ -132,8 +133,8 @@ public class CrimeFragment extends Fragment {
             }
         });
 
-        final Intent pickContact = new Intent(Intent.ACTION_PICK,
-                ContactsContract.Contacts.CONTENT_URI);
+        final Intent pickContact = new Intent(Intent.ACTION_PICK,ContactsContract.Contacts.CONTENT_URI);
+        //final Intent pickContact = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         mSuspectButton = (Button) v.findViewById(R.id.crime_suspect);
         mSuspectButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -152,15 +153,12 @@ public class CrimeFragment extends Fragment {
 
         mPhotoButton = (ImageButton) v.findViewById(R.id.crime_camera);
         final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        boolean canTakePhoto = mPhotoFile != null &&
-                captureImage.resolveActivity(packageManager) != null;
+        boolean canTakePhoto = mPhotoFile != null && captureImage.resolveActivity(packageManager) != null;
         mPhotoButton.setEnabled(canTakePhoto);
         mPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri uri = FileProvider.getUriForFile(getActivity(),
-                        "com.bignerdranch.android.criminalintent.fileprovider",
-                        mPhotoFile);
+                Uri uri = FileProvider.getUriForFile(getActivity(),"com.bignerdranch.android.criminalintent.fileprovider",mPhotoFile);
                 captureImage.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                 List<ResolveInfo> cameraActivities = getActivity()
                         .getPackageManager().queryIntentActivities(captureImage,
@@ -170,6 +168,7 @@ public class CrimeFragment extends Fragment {
                     uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 }
                 startActivityForResult(captureImage, REQUEST_PHOTO);
+                Toast.makeText(getActivity(),"Got a broadcast:",Toast.LENGTH_LONG).show();
             }
         });
         mPhotoView = (ImageView) v.findViewById(R.id.crime_photo);

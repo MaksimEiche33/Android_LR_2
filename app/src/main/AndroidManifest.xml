@@ -32,7 +32,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.fileProvider"
+            android:authorities="com.bignerdranch.android.criminalintent.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
