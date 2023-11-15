@@ -2,6 +2,7 @@ package mai.team2.android_lr_2;
 
 import static java.text.DateFormat.getDateInstance;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -33,16 +34,19 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 public class CrimeFragment extends Fragment {
     private static final String ARG_CRIME_ID = "crime_id";
-    private static final String DIALOG_DATE = "DialogDate";
+    private static final String DIALOG_DATE = "DialogDate"; // константа для метки DatePickerFragment
+    private static final String DIALOG_TIME = "DialogTime";
     private static final int REQUEST_DATE = 0;
     private static final int REQUEST_CONTACT = 1;
     private static final int REQUEST_PHOTO= 2;
+    private static final int REQUEST_TIME = 3;
     private Button mSuspectButton;
     private Button mReportButton;
     private ImageButton mPhotoButton;
@@ -51,6 +55,7 @@ public class CrimeFragment extends Fragment {
     private File mPhotoFile;
     private EditText mTitleField;
     private Button mDateButton;
+    private Button mTimeButton;
     private CheckBox mSolvedCheckBox;
 
     public static CrimeFragment newInstance(UUID crimeId) {
@@ -76,6 +81,7 @@ public class CrimeFragment extends Fragment {
         CrimeLab.get(getActivity()).updateCrime(mCrime);
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {                                     // создание и настройка представления фрагмента
@@ -99,15 +105,31 @@ public class CrimeFragment extends Fragment {
             }
         });
 
-        mDateButton = (Button) v.findViewById(R.id.crime_date);//Настройка текста Button
+        mDateButton = (Button) v.findViewById(R.id.crime_date);
         mDateButton.setText(getDateInstance().format(mCrime.getDate()));
+        // mDateButton.setEnabled(false); // блокирует кнопку
         mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager manager = getFragmentManager();
-                DatePickerFragment dialog = DatePickerFragment.newInstance(mCrime.getDate());
+
+                DatePickerFragment dialog = DatePickerFragment.newInstance(mCrime.getDate()); // возвращает фрагмент с календарем
                 dialog.setTargetFragment(CrimeFragment.this, REQUEST_DATE);
-                dialog.show(manager, DIALOG_DATE);
+                dialog.show(manager, DIALOG_DATE);                                 //отображает DatePickerFragment при нажатии кнопки даты
+            }
+        });
+
+        mTimeButton = (Button) v.findViewById(R.id.crime_time);
+        SimpleDateFormat simpDate;
+        simpDate = new SimpleDateFormat("kk:mm");
+        mTimeButton.setText(simpDate.format(mCrime.getDate()));
+        mTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = getFragmentManager();
+                TimePickerFragment dialog = TimePickerFragment.newInstance(mCrime.getDate());  // в качесте аргумента ДАТА
+                dialog.setTargetFragment(CrimeFragment.this, REQUEST_TIME);
+                dialog.show(manager, DIALOG_TIME);
             }
         });
 
@@ -202,33 +224,25 @@ public class CrimeFragment extends Fragment {
         return report;
     }
 
-    /*@Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != Activity.RESULT_OK) {
-            return;
-        }
-        if (requestCode == REQUEST_DATE) {
-            Date date = (Date) data
-                    .getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-            mCrime.setDate(date);
-            mDateButton.setText(getDateInstance().format(mCrime.getDate()));
-            updateDate();
-        }
-
-    }*/
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != Activity.RESULT_OK) {
             return;
         }
         if (requestCode == REQUEST_DATE) {
-            Date date = (Date) data
-                    .getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+            Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
             mCrime.setDate(date);
             mDateButton.setText(getDateInstance().format(mCrime.getDate()));
-
             updateDate();
-        } else if (requestCode == REQUEST_CONTACT && data != null) {
+
+        } else if (requestCode == REQUEST_TIME) {
+            Date time = (Date) data.getSerializableExtra(TimePickerFragment.EXTRA_TIME);
+            mCrime.setDate(time);                                                            //?????
+            SimpleDateFormat simpDate;
+            simpDate = new SimpleDateFormat("kk:mm");
+            mTimeButton.setText(simpDate.format(mCrime.getDate()));
+
+        }else if (requestCode == REQUEST_CONTACT && data != null) {
             Uri contactUri = data.getData();
             // Определение полей, значения которых должны быть
             // возвращены запросом.

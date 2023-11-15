@@ -19,11 +19,10 @@ import java.util.GregorianCalendar;
 
 public class DatePickerFragment extends DialogFragment {
 
-    public static final String EXTRA_DATE =
-            "com.bignerdranch.android.criminalintent.date";
+    public static final String EXTRA_DATE = "com.bignerdranch.android.criminalintent.date";
     private static final String ARG_DATE = "date";
     private DatePicker mDatePicker;
-    public static DatePickerFragment newInstance(Date date) {
+    public static DatePickerFragment newInstance(Date date) { //Передача данных в DatePickerFragmen
         Bundle args = new Bundle();
         args.putSerializable(ARG_DATE, date);
         DatePickerFragment fragment = new DatePickerFragment();
@@ -32,21 +31,20 @@ public class DatePickerFragment extends DialogFragment {
     }
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Date date = (Date) getArguments().getSerializable(ARG_DATE);
+        Date date = (Date) getArguments().getSerializable(ARG_DATE); //Извлечение даты и инициализация DatePicker
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH); // Извлечение даты и инициализация DatePicker
 
-        View v = LayoutInflater.from(getActivity())
-                .inflate(R.layout.dialog_date, null);
+        View v = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_date, null); // подключение календаря
 
-        mDatePicker = (DatePicker) v.findViewById(R.id.dialog_date_picker);
+        mDatePicker = (DatePicker) v.findViewById(R.id.dialog_date_picker);  //Извлечение даты и инициализация DatePicker
         mDatePicker.init(year, month, day, null);
 
-        return new AlertDialog.Builder(getActivity())
-                .setView(v)
+        return new AlertDialog.Builder(getActivity()) // Создание DialogFragment
+                .setView(v)                           // вызов окна с календарем
                 .setTitle(R.string.date_picker_title)
                 .setPositiveButton(android.R.string.ok,
                         new DialogInterface.OnClickListener() {
