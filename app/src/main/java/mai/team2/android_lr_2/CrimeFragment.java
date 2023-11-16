@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
@@ -109,9 +110,14 @@ public class CrimeFragment extends Fragment {
             public void onClick(View v) {
                 FragmentManager manager = getFragmentManager();
 
-                DatePickerFragment dialog = DatePickerFragment.newInstance(mCrime.getDate()); // возвращает фрагмент с календарем
-                dialog.setTargetFragment(CrimeFragment.this, REQUEST_DATE);
-                dialog.show(manager, DIALOG_DATE);                                 //отображает DatePickerFragment при нажатии кнопки даты
+                //DatePickerFragment dialog = DatePickerFragment.newInstance(mCrime.getDate()); // возвращает фрагмент с календарем
+                //dialog.setTargetFragment(CrimeFragment.this, REQUEST_DATE);
+                //dialog.show(manager, DIALOG_DATE);                                 //отображает DatePickerFragment при нажатии кнопки даты
+
+                Intent intent = CrimeDatePickerActivity.newIntent(getActivity(), mCrime.getDate());
+
+                //Intent intent = new Intent(getActivity(), CrimeDatePickerActivity.class);
+                startActivityForResult(intent, REQUEST_DATE);
             }
         });
 
@@ -199,7 +205,7 @@ public class CrimeFragment extends Fragment {
         mDateButton.setText(getDateInstance().format(mCrime.getDate()));
         SimpleDateFormat simpDate = new SimpleDateFormat("kk:mm");
         mTimeButton.setText(simpDate.format(mCrime.getDate()));
-        Toast.makeText(getActivity(),mCrime.getDate().toString(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(),mCrime.getDate().toString(), Toast.LENGTH_SHORT).show();
     }
 
     private String getCrimeReport() {

@@ -30,6 +30,11 @@
             android:parentActivityName=".CrimeListActivity">
         </activity>
 
+        <activity
+            android:name=".CrimeDatePickerActivity"
+            android:parentActivityName=".CrimeActivity">
+        </activity>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.bignerdranch.android.criminalintent.fileprovider"

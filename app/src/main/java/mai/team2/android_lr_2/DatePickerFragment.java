@@ -17,12 +17,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class DatePickerFragment extends DialogFragment {
+public class DatePickerFragment extends Fragment {
 
     public static final String EXTRA_DATE = "com.bignerdranch.android.criminalintent.date";
     private static final String ARG_DATE = "date";
@@ -58,54 +59,34 @@ public class DatePickerFragment extends DialogFragment {
                 int year = mDatePicker.getYear();
                 int month = mDatePicker.getMonth();
                 int day = mDatePicker.getDayOfMonth();
-                Date date = new GregorianCalendar(year, month, day).
-                        getTime();
+                Date date = new GregorianCalendar(year, month, day).getTime();
                 date.setHours(date_default.getHours());
                 date.setMinutes(date_default.getHours());
 
-                sendResult(Activity.RESULT_OK, date);
-                DatePickerFragment.super.dismiss();
+                //Toast.makeText(getActivity(), date.toString(), Toast.LENGTH_SHORT).show();
+                //sendResult(Activity.RESULT_OK, date);
+                //DatePickerFragment.super.dismiss();
+
+                Intent intent = new Intent(getActivity(), CrimeFragment.class);
+                intent.putExtra(EXTRA_DATE, date);
+                getActivity().setResult(Activity.RESULT_OK,intent);
+                getActivity().finish();
             }
         });
 
         return (inflatedView);
     }
 
-//    @Override
-//    public Dialog onCreateDialog(Bundle savedInstanceState) {
-//        Date date = (Date) getArguments().getSerializable(ARG_DATE); //Извлечение даты и инициализация DatePicker
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTime(date);
-//        int year = calendar.get(Calendar.YEAR);
-//        int month = calendar.get(Calendar.MONTH);
-//        int day = calendar.get(Calendar.DAY_OF_MONTH); // Извлечение даты и инициализация DatePicker
-//        v = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_date, null); // подключение календаря
-//        mDatePicker = (DatePicker) v.findViewById(R.id.dialog_date_picker);  //Извлечение даты и инициализация DatePicker
-//        mDatePicker.init(year, month, day, null);
+//    private void sendResult(int resultCode, Date date) {  // сохранение даты
+//        if (getTargetFragment() == null) {
+//            return;
+//        }
+//        Intent intent = new Intent(getActivity(), CrimeFragment.class);
+//        intent.putExtra(EXTRA_DATE, date);
+//        getActivity().setResult(Activity.RESULT_OK,intent);
 //
-//        return new AlertDialog.Builder(getActivity())                                                          // Создание DialogFragment
-//                .setView(v)                           // вызов окна с календарем
-//                .setTitle(R.string.date_picker_title)
-//                .setPositiveButton(android.R.string.ok,
-//                        new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                int year = mDatePicker.getYear();
-//                                int month = mDatePicker.getMonth();
-//                                int day = mDatePicker.getDayOfMonth();
-//                                Date date = new GregorianCalendar(year, month, day).
-//                                        getTime();
-//                                sendResult(Activity.RESULT_OK, date);
-//                            }
-//                        })
-//                .create();
+//        //setResult(Activity.RESULT_OK,intent);
+//        //finish();
+//        //getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, intent);
 //    }
-    private void sendResult(int resultCode, Date date) {  // сохранение даты
-        if (getTargetFragment() == null) {
-            return;
-        }
-        Intent intent = new Intent();
-        intent.putExtra(EXTRA_DATE, date);
-        getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, intent);
-    }
 }
