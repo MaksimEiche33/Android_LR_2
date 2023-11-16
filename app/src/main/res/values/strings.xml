@@ -4,13 +4,13 @@
     <string name="crime_title_label">TITLE</string>
     <string name="crime_details_label">Details</string>
     <string name="crime_solved_label">Solved</string>
-    <string name="crime_photo_button_description">Take photo of crime scene</string>
-    <string name="crime_photo_no_image_description">
+    <string name="crime_photo_button_description" translatable="false">Take photo of crime scene</string>
+    <string name="crime_photo_no_image_description" translatable="false">
  Crime scene photo (not set)
  </string>
-    <string name="crime_photo_image_description">Crime scene photo (set)</string>
+    <string name="crime_photo_image_description" translatable="false">Crime scene photo (set)</string>
     <string name="date_picker_title">Date of crime:</string>
-    <string name="time_picker_title">Time of crime:</string>
+    <string name="time_picker_title" translatable="false">Time of crime:</string>
     <string name="new_crime">New Crime</string>
     <string name="show_subtitle">Show Subtitle</string>
     <string name="hide_subtitle">Hide Subtitle</string>
@@ -26,7 +26,9 @@
     <string name="crime_report_suspect">the suspect is %s.</string>
     <string name="crime_report_subject">CriminalIntent Crime Report</string>
     <string name="send_report">Send crime report via</string>
-    <plurals name="subtitle_plural">
+    <string name="activity_horizontal_margin" translatable="false">aaa</string>
+    <string name="activity_vertical_margin" translatable="false">bbb</string>
+    <plurals name="subtitle_plural" translatable="false">
         <item quantity="one">%1$d crime</item>
         <item quantity="other">%1$d crimes</item>
     </plurals>

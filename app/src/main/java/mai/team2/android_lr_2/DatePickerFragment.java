@@ -9,8 +9,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import java.util.Calendar;
@@ -22,51 +27,85 @@ public class DatePickerFragment extends DialogFragment {
     public static final String EXTRA_DATE = "com.bignerdranch.android.criminalintent.date";
     private static final String ARG_DATE = "date";
     private DatePicker mDatePicker;
+    private Button mPositiveButton;
+    private Date date_default;
     public static DatePickerFragment newInstance(Date date) { //Передача данных в DatePickerFragmen
         Bundle args = new Bundle();
         args.putSerializable(ARG_DATE, date);
         DatePickerFragment fragment = new DatePickerFragment();
         fragment.setArguments(args);
+
         return fragment;
     }
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Date date = (Date) getArguments().getSerializable(ARG_DATE); //Извлечение даты и инициализация DatePicker
+
+    @Nullable
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+        date_default = (Date) getArguments().getSerializable(ARG_DATE);                                     //Извлечение даты и инициализация DatePicker
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
+        calendar.setTime(date_default);
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH); // Извлечение даты и инициализация DatePicker
+        int day = calendar.get(Calendar.DAY_OF_MONTH);                                                   // Извлечение даты и инициализация DatePicker
 
-        View v = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_date, null); // подключение календаря
+        View inflatedView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_date, null); // подключение диалогового окна
+        mDatePicker = (DatePicker) inflatedView.findViewById(R.id.dialog_date_picker);                   //Извлечение даты и инициализация DatePicker
+        mDatePicker.init(year, month, day, null);                                      // выведение в календарь корректной даты
 
-        mDatePicker = (DatePicker) v.findViewById(R.id.dialog_date_picker);  //Извлечение даты и инициализация DatePicker
-        mDatePicker.init(year, month, day, null);
+        mPositiveButton = (Button) inflatedView.findViewById(R.id.btn1);
+        mPositiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int year = mDatePicker.getYear();
+                int month = mDatePicker.getMonth();
+                int day = mDatePicker.getDayOfMonth();
+                Date date = new GregorianCalendar(year, month, day).
+                        getTime();
+                date.setHours(date_default.getHours());
+                date.setMinutes(date_default.getHours());
 
-        return new AlertDialog.Builder(getActivity()) // Создание DialogFragment
-                .setView(v)                           // вызов окна с календарем
-                .setTitle(R.string.date_picker_title)
-                .setPositiveButton(android.R.string.ok,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                int year = mDatePicker.getYear();
-                                int month = mDatePicker.getMonth();
-                                int day = mDatePicker.getDayOfMonth();
-                                Date date = new GregorianCalendar(year, month, day).
-                                        getTime();
-                                sendResult(Activity.RESULT_OK, date);
-                            }
-                        })
-                .create();
+                sendResult(Activity.RESULT_OK, date);
+                DatePickerFragment.super.dismiss();
+            }
+        });
+
+        return (inflatedView);
     }
-    private void sendResult(int resultCode, Date date) {
+
+//    @Override
+//    public Dialog onCreateDialog(Bundle savedInstanceState) {
+//        Date date = (Date) getArguments().getSerializable(ARG_DATE); //Извлечение даты и инициализация DatePicker
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(date);
+//        int year = calendar.get(Calendar.YEAR);
+//        int month = calendar.get(Calendar.MONTH);
+//        int day = calendar.get(Calendar.DAY_OF_MONTH); // Извлечение даты и инициализация DatePicker
+//        v = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_date, null); // подключение календаря
+//        mDatePicker = (DatePicker) v.findViewById(R.id.dialog_date_picker);  //Извлечение даты и инициализация DatePicker
+//        mDatePicker.init(year, month, day, null);
+//
+//        return new AlertDialog.Builder(getActivity())                                                          // Создание DialogFragment
+//                .setView(v)                           // вызов окна с календарем
+//                .setTitle(R.string.date_picker_title)
+//                .setPositiveButton(android.R.string.ok,
+//                        new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                int year = mDatePicker.getYear();
+//                                int month = mDatePicker.getMonth();
+//                                int day = mDatePicker.getDayOfMonth();
+//                                Date date = new GregorianCalendar(year, month, day).
+//                                        getTime();
+//                                sendResult(Activity.RESULT_OK, date);
+//                            }
+//                        })
+//                .create();
+//    }
+    private void sendResult(int resultCode, Date date) {  // сохранение даты
         if (getTargetFragment() == null) {
             return;
         }
         Intent intent = new Intent();
         intent.putExtra(EXTRA_DATE, date);
-        getTargetFragment()
-                .onActivityResult(getTargetRequestCode(), resultCode, intent);
+        getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, intent);
     }
 }

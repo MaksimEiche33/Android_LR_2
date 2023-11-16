@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.fragment.app.DialogFragment;
 
@@ -18,9 +19,10 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class TimePickerFragment extends DialogFragment {
-    public static final String EXTRA_TIME ="com.bignerdranch.android.criminalintent.time";
+    public static final String EXTRA_TIME = "com.bignerdranch.android.criminalintent.Time";
     private static final String ARG_TIME = "time";
     private TimePicker mTimePicker;
+    private Date date;
     public static TimePickerFragment newInstance(Date time) {   // в качесте аргумента ДАТА
         Bundle args = new Bundle();
         args.putSerializable(ARG_TIME, time);
@@ -31,7 +33,7 @@ public class TimePickerFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        Date date = (Date) getArguments().getSerializable(ARG_TIME); // сомнительное Извлечение даты и инициализация TimePicker
+        date = (Date) getArguments().getSerializable(ARG_TIME); // сомнительное Извлечение даты и инициализация TimePicker
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         int hour = calendar.get(Calendar.HOUR);
@@ -52,10 +54,9 @@ public class TimePickerFragment extends DialogFragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
-                                Date time = new Date();
-                                time.setHours(mTimePicker.getHour());
-                                time.setMinutes(mTimePicker.getMinute());
-                                sendResult(Activity.RESULT_OK, time);
+                                date.setHours(mTimePicker.getHour());
+                                date.setMinutes(mTimePicker.getMinute());
+                                sendResult(Activity.RESULT_OK, date);
                             }
                         })
                 .create();
@@ -66,7 +67,6 @@ public class TimePickerFragment extends DialogFragment {
         }
         Intent intent = new Intent();
         intent.putExtra(EXTRA_TIME, time);
-        getTargetFragment()
-                .onActivityResult(getTargetRequestCode(), resultCode, intent);
+        getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, intent);
     }
 }

@@ -34,11 +34,18 @@ public class Crime {
         mTitle = title;
     }
     public Date getDate() {
-        //return DateFormat.getDateInstance().format(mDate);
         return mDate;
     }
     public void setDate(Date date) {
         mDate = date;
+//        mDate.setYear(date.getYear());
+//        mDate.setDate(date.getDate());
+//        mDate.setMonth(date.getMonth());
+    }
+    public void setTime(Date time) {
+        mDate = time;
+//        mDate.setHours(time.getHours());
+//        mDate.setMinutes(time.getMinutes());
     }
     public boolean isSolved() {
         return mSolved;

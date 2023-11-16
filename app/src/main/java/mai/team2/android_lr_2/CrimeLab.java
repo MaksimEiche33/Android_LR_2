@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -46,10 +47,7 @@ public class CrimeLab {
         return crimes;
     }
     public Crime getCrime(UUID id) {
-        CrimeCursorWrapper cursor = queryCrimes(
-                CrimeTable.Cols.UUID + " =?",
-                new String[] {id.toString()}
-        );
+        CrimeCursorWrapper cursor = queryCrimes(CrimeTable.Cols.UUID + " =?",new String[] {id.toString()});
         try {
             if (cursor.getCount() == 0){
                 return null;

@@ -77,14 +77,12 @@ public class CrimeFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-
         CrimeLab.get(getActivity()).updateCrime(mCrime);
     }
 
     @SuppressLint("MissingInflatedId")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {                                     // создание и настройка представления фрагмента
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {// создание и настройка представления фрагмента
         View v = inflater.inflate(R.layout.fragment_crime, container, false);
         mTitleField = (EditText) v.findViewById(R.id.crime_title);
         mTitleField.setText(mCrime.getTitle());
@@ -106,8 +104,6 @@ public class CrimeFragment extends Fragment {
         });
 
         mDateButton = (Button) v.findViewById(R.id.crime_date);
-        mDateButton.setText(getDateInstance().format(mCrime.getDate()));
-        // mDateButton.setEnabled(false); // блокирует кнопку
         mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,9 +116,6 @@ public class CrimeFragment extends Fragment {
         });
 
         mTimeButton = (Button) v.findViewById(R.id.crime_time);
-        SimpleDateFormat simpDate;
-        simpDate = new SimpleDateFormat("kk:mm");
-        mTimeButton.setText(simpDate.format(mCrime.getDate()));
         mTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,6 +125,8 @@ public class CrimeFragment extends Fragment {
                 dialog.show(manager, DIALOG_TIME);
             }
         });
+
+        updateDate();
 
         mSolvedCheckBox = (CheckBox) v.findViewById(R.id.crime_solved);// Прослушивание изменений Checkbox
         mSolvedCheckBox.setChecked(mCrime.isSolved());
@@ -163,6 +158,7 @@ public class CrimeFragment extends Fragment {
                 startActivityForResult(pickContact, REQUEST_CONTACT);
             }
         });
+
         if (mCrime.getSuspect() != null) {
             mSuspectButton.setText(mCrime.getSuspect());
         }
@@ -201,6 +197,9 @@ public class CrimeFragment extends Fragment {
 
     private void updateDate() {
         mDateButton.setText(getDateInstance().format(mCrime.getDate()));
+        SimpleDateFormat simpDate = new SimpleDateFormat("kk:mm");
+        mTimeButton.setText(simpDate.format(mCrime.getDate()));
+        Toast.makeText(getActivity(),mCrime.getDate().toString(), Toast.LENGTH_SHORT).show();
     }
 
     private String getCrimeReport() {
@@ -210,9 +209,8 @@ public class CrimeFragment extends Fragment {
         } else {
             solvedString = getString(R.string.crime_report_unsolved);
         }
-        String dateFormat = "EEE, MMM dd";
-        String dateString = DateFormat.format(dateFormat,
-                mCrime.getDate()).toString();
+        String dateFormat = "EEE, MMM dd HH:mm";
+        String dateString = DateFormat.format(dateFormat,mCrime.getDate()).toString();
         String suspect = mCrime.getSuspect(); // проблемный участок
         if (suspect == null) {
             suspect = getString(R.string.crime_report_no_suspect);
@@ -232,15 +230,12 @@ public class CrimeFragment extends Fragment {
         if (requestCode == REQUEST_DATE) {
             Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
             mCrime.setDate(date);
-            mDateButton.setText(getDateInstance().format(mCrime.getDate()));
             updateDate();
 
         } else if (requestCode == REQUEST_TIME) {
-            Date time = (Date) data.getSerializableExtra(TimePickerFragment.EXTRA_TIME);
-            mCrime.setDate(time);                                                            //?????
-            SimpleDateFormat simpDate;
-            simpDate = new SimpleDateFormat("kk:mm");
-            mTimeButton.setText(simpDate.format(mCrime.getDate()));
+            Date date = (Date) data.getSerializableExtra(TimePickerFragment.EXTRA_TIME);
+            mCrime.setTime(date);
+            updateDate();
 
         }else if (requestCode == REQUEST_CONTACT && data != null) {
             Uri contactUri = data.getData();
