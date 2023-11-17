@@ -49,7 +49,7 @@ public class CrimeListFragment extends Fragment{
         if (savedInstanceState != null) {
             mSubtitleVisible = savedInstanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);
         }
-        //updateUI();
+        updateUI();
 
         return view;
     }
@@ -57,7 +57,6 @@ public class CrimeListFragment extends Fragment{
     @Override
     public void onResume() {
         super.onResume();
-        Toast.makeText(getActivity(),"onResume", Toast.LENGTH_SHORT).show();
         updateUI();
     }
     @Override
@@ -120,7 +119,12 @@ public class CrimeListFragment extends Fragment{
             mCrimeRecyclerView.setAdapter(mAdapter);
         } else {
             mAdapter.setCrimes(crimes);
-            mAdapter.notifyItemChanged(mIdModifiedElement);// переделано для упражнения из 10 главы
+            if (crimeLab.isDelete == false){
+                mAdapter.notifyItemChanged(mIdModifiedElement);// переделано для упражнения из 10 главы
+            } else{
+                mAdapter.notifyDataSetChanged();
+                crimeLab.isDelete = false;
+            }
         }
         updateSubtitle();
     }
@@ -185,7 +189,7 @@ public class CrimeListFragment extends Fragment{
         public int getItemCount() {
             return mCrimes.size();
         }
-        public void setCrimes(List<Crime> crimes){
+        public void setCrimes(List<Crime> crimes) {
             mCrimes = crimes;
         }
         @Override

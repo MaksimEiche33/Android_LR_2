@@ -179,7 +179,7 @@ public class CrimeFragment extends Fragment {
         mDeleteButton = (Button) v.findViewById(R.id.crime_delete);
         mDeleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                CrimeLab.deleteCrime(mCrime);
                 getActivity().finish();
             }
         });

@@ -18,8 +18,9 @@ import mai.team2.android_lr_2.database.CrimeDbSchema.CrimeTable;
 
 public class CrimeLab {
     private Context mContext;
-    private SQLiteDatabase mDatabase;
+    private static SQLiteDatabase mDatabase;
     private static CrimeLab sCrimeLab;
+    public static Boolean isDelete;
     public static CrimeLab get(Context context) {
         if (sCrimeLab == null) {
             sCrimeLab = new CrimeLab(context);
@@ -29,6 +30,7 @@ public class CrimeLab {
     private CrimeLab(Context context) { //Создание списка List объектов Crime
         mContext = context.getApplicationContext();
         mDatabase = new CrimeBaseHelper(mContext).getWritableDatabase(); // подключение к базе данных и работа с ней (связь данного класса с базой данных)
+        isDelete = false;
     }
     public List<Crime> getCrimes() {
         List<Crime> crimes = new ArrayList<>();
@@ -96,14 +98,18 @@ public class CrimeLab {
         return values;
     }
 
-    public void addCrime(Crime c){
-        ContentValues values = getContentValues(c);
+    public void addCrime(Crime crime){
+        ContentValues values = getContentValues(crime);
 
         mDatabase.insert(CrimeTable.NAME, null, values);
     }
 
-    public void deleteCrime(Crime c) {
-
+    public static void deleteCrime(Crime crime) {
+        String uuidString = crime.getId().toString();
+        mDatabase.delete(CrimeTable.NAME,
+                CrimeTable.Cols.UUID + " =?",
+                new String[] {uuidString});
+        isDelete = true;
     }
 }
 
