@@ -50,6 +50,7 @@ public class CrimeFragment extends Fragment {
     private static final int REQUEST_TIME = 3;
     private Button mSuspectButton;
     private Button mReportButton;
+    private Button mDeleteButton;
     private ImageButton mPhotoButton;
     private ImageView mPhotoView;
     private Crime mCrime;
@@ -174,6 +175,14 @@ public class CrimeFragment extends Fragment {
                 PackageManager.MATCH_DEFAULT_ONLY) == null) {
             mSuspectButton.setEnabled(false);
         }
+
+        mDeleteButton = (Button) v.findViewById(R.id.crime_delete);
+        mDeleteButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                getActivity().finish();
+            }
+        });
 
         mPhotoButton = (ImageButton) v.findViewById(R.id.crime_camera);
         final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

@@ -28,6 +28,8 @@
     <string name="send_report">Send crime report via</string>
     <string name="activity_horizontal_margin" translatable="false">aaa</string>
     <string name="activity_vertical_margin" translatable="false">bbb</string>
+    <string name="crime_delete_text">Delete</string>
+    <string name="add_crime">Add Crime</string>
     <plurals name="subtitle_plural" translatable="false">
         <item quantity="one">%1$d crime</item>
         <item quantity="other">%1$d crimes</item>
