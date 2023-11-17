@@ -133,8 +133,6 @@ public class CrimeFragment extends Fragment {
             }
         });
 
-        updateDate();
-
         mSolvedCheckBox = (CheckBox) v.findViewById(R.id.crime_solved);// Прослушивание изменений Checkbox
         mSolvedCheckBox.setChecked(mCrime.isSolved());
         mSolvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -165,10 +163,6 @@ public class CrimeFragment extends Fragment {
                 startActivityForResult(pickContact, REQUEST_CONTACT);
             }
         });
-
-        if (mCrime.getSuspect() != null) {
-            mSuspectButton.setText(mCrime.getSuspect());
-        }
 
         PackageManager packageManager = getActivity().getPackageManager();
         if (packageManager.resolveActivity(pickContact,
@@ -206,6 +200,8 @@ public class CrimeFragment extends Fragment {
         });
         mPhotoView = (ImageView) v.findViewById(R.id.crime_photo);
         updatePhotoView();
+        updateSuspect();
+        updateDate();
 
         return v;
     }
@@ -214,7 +210,11 @@ public class CrimeFragment extends Fragment {
         mDateButton.setText(getDateInstance().format(mCrime.getDate()));
         SimpleDateFormat simpDate = new SimpleDateFormat("kk:mm");
         mTimeButton.setText(simpDate.format(mCrime.getDate()));
-        //Toast.makeText(getActivity(),mCrime.getDate().toString(), Toast.LENGTH_SHORT).show();
+    }
+    private void updateSuspect(){
+        if (mCrime.getSuspect() != null) {
+            mSuspectButton.setText(mCrime.getSuspect());
+        }
     }
 
     private String getCrimeReport() {
@@ -272,7 +272,7 @@ public class CrimeFragment extends Fragment {
                 c.moveToFirst();
                 String suspect = c.getString(0);
                 mCrime.setSuspect(suspect);
-                mSuspectButton.setText(suspect);
+                mSuspectButton.setText(mCrime.getSuspect());
             } finally {
                 c.close();
             }
