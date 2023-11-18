@@ -165,8 +165,7 @@ public class CrimeFragment extends Fragment {
         });
 
         PackageManager packageManager = getActivity().getPackageManager();
-        if (packageManager.resolveActivity(pickContact,
-                PackageManager.MATCH_DEFAULT_ONLY) == null) {
+        if (packageManager.resolveActivity(pickContact,PackageManager.MATCH_DEFAULT_ONLY) == null) {
             mSuspectButton.setEnabled(false);
         }
 
@@ -272,7 +271,7 @@ public class CrimeFragment extends Fragment {
                 c.moveToFirst();
                 String suspect = c.getString(0);
                 mCrime.setSuspect(suspect);
-                mSuspectButton.setText(mCrime.getSuspect());
+                mSuspectButton.setText(suspect);
             } finally {
                 c.close();
             }
