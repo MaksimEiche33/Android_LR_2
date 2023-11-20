@@ -31,12 +31,18 @@ public class CrimeListFragment extends Fragment{
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
     private boolean mSubtitleVisible;
+    private Callbacks mCallbacks;
     public interface Callbacks {
         void onCrimeSelected(Crime crime);
     }
     private int mIdModifiedElement; // добавлено для упражнения из 10 главы
     private static final String SAVED_SUBTITLE_VISIBLE = "subtitle";
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mCallbacks = (Callbacks) activity;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -210,4 +216,9 @@ public class CrimeListFragment extends Fragment{
         outState.putBoolean(SAVED_SUBTITLE_VISIBLE, mSubtitleVisible);
     }
 
+    @Override
+    public void onDetach(){
+        super.onDetach();
+        mCallbacks = null;
+    }
 }
