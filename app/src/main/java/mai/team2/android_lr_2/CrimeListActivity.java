@@ -15,8 +15,15 @@ public class CrimeListActivity extends SingleFragmentActivity {
         Intent intent = CrimeActivity.newIntent(this, crime.getId());
         startActivity(intent);
     }
-    @Override
-    protected Fragment createFragment() {
+
+        @Override
+        protected Fragment createFragment () {
         return new CrimeListFragment();
+    }
+
+        @Override
+        protected int getLayoutResId () {
+        //return R.layout.activity_twopane;
+        return R.layout.activity_masterdetail;
     }
 }

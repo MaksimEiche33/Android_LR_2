@@ -31,8 +31,12 @@ public class CrimeListFragment extends Fragment{
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
     private boolean mSubtitleVisible;
+    public interface Callbacks {
+        void onCrimeSelected(Crime crime);
+    }
     private int mIdModifiedElement; // добавлено для упражнения из 10 главы
     private static final String SAVED_SUBTITLE_VISIBLE = "subtitle";
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -205,4 +209,5 @@ public class CrimeListFragment extends Fragment{
         super.onSaveInstanceState(outState);
         outState.putBoolean(SAVED_SUBTITLE_VISIBLE, mSubtitleVisible);
     }
+
 }
