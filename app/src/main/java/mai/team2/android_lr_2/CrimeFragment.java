@@ -33,6 +33,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.viewpager.widget.ViewPager;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -51,6 +52,8 @@ public class CrimeFragment extends Fragment {
     private Button mSuspectButton;
     private Button mReportButton;
     private Button mDeleteButton;
+    private Button mFirstButton;
+    private Button mLastButton;
     private ImageButton mPhotoButton;
     private ImageView mPhotoView;
     private Crime mCrime;
@@ -177,6 +180,23 @@ public class CrimeFragment extends Fragment {
             }
         });
 
+        mFirstButton = (Button) v.findViewById(R.id.crime_first);
+        mFirstButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+        ViewPager pager = (ViewPager) getActivity().findViewById(R.id.crime_view_pager);
+        pager.setCurrentItem(0);
+        }
+        });
+        mLastButton = (Button) v.findViewById(R.id.crime_last);
+        mLastButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+        ViewPager pager = (ViewPager) getActivity().findViewById(R.id.crime_view_pager);
+        pager.setCurrentItem(CrimeLab.get(getActivity()).getCrimes().size()-1);
+        }
+        });
+
         mPhotoButton = (ImageButton) v.findViewById(R.id.crime_camera);
         final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         boolean canTakePhoto = mPhotoFile != null && captureImage.resolveActivity(packageManager) != null;
@@ -201,8 +221,8 @@ public class CrimeFragment extends Fragment {
         updatePhotoView();
         updateSuspect();
         updateDate();
-
         return v;
+
     }
 
     private void updateDate() {

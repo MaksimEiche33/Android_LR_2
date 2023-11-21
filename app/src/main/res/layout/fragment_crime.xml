@@ -8,8 +8,9 @@
 
 
     <LinearLayout
-        android:layout_width="353dp"
-        android:layout_height="450dp"
+        android:layout_width="361dp"
+        android:layout_height="539dp"
+        android:layout_margin="16dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -123,6 +124,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/crime_delete_text" />
+
+        <Button
+            android:id="@+id/crime_first"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/crime_first_text" />
+
+        <Button
+            android:id="@+id/crime_last"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/crime_last_text" />
     </LinearLayout>
 
 
