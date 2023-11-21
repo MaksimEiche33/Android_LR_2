@@ -108,6 +108,35 @@ public class CrimeFragment extends Fragment {
             }
         });
 
+        mFirstButton = (Button) v.findViewById(R.id.crime_first);
+        mFirstButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ViewPager pager = (ViewPager) getActivity().findViewById(R.id.crime_view_pager);
+                pager.setCurrentItem(0);
+
+                if (pager.getCurrentItem() == 0) {
+                    mFirstButton.setVisibility(View.INVISIBLE);
+                } else {
+                    mFirstButton.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        mLastButton = (Button) v.findViewById(R.id.crime_last);
+        mLastButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ViewPager pager = (ViewPager) getActivity().findViewById(R.id.crime_view_pager);
+                pager.setCurrentItem(CrimeLab.get(getActivity()).getCrimes().size()-1);
+
+                if (pager.getCurrentItem() == CrimeLab.get(getActivity()).getCrimes().size()-1) {
+                    mLastButton.setVisibility(View.INVISIBLE);
+                } else {
+                    mLastButton.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
         mDateButton = (Button) v.findViewById(R.id.crime_date);
         mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,23 +207,6 @@ public class CrimeFragment extends Fragment {
                 CrimeLab.deleteCrime(mCrime);
                 getActivity().finish();
             }
-        });
-
-        mFirstButton = (Button) v.findViewById(R.id.crime_first);
-        mFirstButton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-        ViewPager pager = (ViewPager) getActivity().findViewById(R.id.crime_view_pager);
-        pager.setCurrentItem(0);
-        }
-        });
-        mLastButton = (Button) v.findViewById(R.id.crime_last);
-        mLastButton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-        ViewPager pager = (ViewPager) getActivity().findViewById(R.id.crime_view_pager);
-        pager.setCurrentItem(CrimeLab.get(getActivity()).getCrimes().size()-1);
-        }
         });
 
         mPhotoButton = (ImageButton) v.findViewById(R.id.crime_camera);
