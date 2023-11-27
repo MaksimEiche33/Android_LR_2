@@ -170,10 +170,10 @@ public class CrimeFragment extends Fragment {
         });
 
         PackageManager packageManager = getActivity().getPackageManager();
-        if (packageManager.resolveActivity(pickContact,PackageManager.MATCH_DEFAULT_ONLY) == null) {
+        /*if (packageManager.resolveActivity(pickContact,PackageManager.MATCH_DEFAULT_ONLY) == null) {
             mSuspectButton.setEnabled(false);
             fortelefon =0;
-        }
+        }*/
 
         telefon=(Button) v.findViewById(R.id.telefon);  // кнопка звонка подозреваемому
         telefon.setOnClickListener(new View.OnClickListener() {
@@ -184,8 +184,8 @@ public class CrimeFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        if (fortelefon == 0) {            // кнопка звонка подозреваемому блокируется, если невозможно выбрать самого подозреваемого
-            telefon.setEnabled(false);}
+        /*if (fortelefon == 0) {            // кнопка звонка подозреваемому блокируется, если нет контактных приложений
+            telefon.setEnabled(false);}*/
 
         mDeleteButton = (Button) v.findViewById(R.id.crime_delete);
         mDeleteButton.setOnClickListener(new View.OnClickListener() {
