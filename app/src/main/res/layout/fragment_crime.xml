@@ -8,14 +8,15 @@
 
 
     <LinearLayout
-        android:layout_width="353dp"
-        android:layout_height="450dp"
+        android:layout_width="349dp"
+        android:layout_height="599dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.154">
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -123,7 +124,51 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/crime_delete_text" />
+
+        <Button
+            android:id="@+id/telefon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Telefon" />
+
+        <!--<EditText
+            android:id="@+id/number"
+            android:layout_width="match_parent"
+            android:layout_height="57dp"
+            android:cursorVisible="true"
+            android:editable="true"
+            android:hint="Введите номер"
+            android:singleLine="true" />
+
+        <Button
+            android:id="@+id/dial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="dial"
+            android:text="Позвонить" />-->
+
     </LinearLayout>
+
+    <!--<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cursorVisible="true"
+            android:editable="true"
+            android:hint="Введите номер"
+            android:singleLine="true" />
+
+        <Button android:id="@+id/dial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Позвонить"
+            android:onClick="dial" />
+    </LinearLayout>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

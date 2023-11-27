@@ -28,8 +28,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -56,8 +54,10 @@ public class CrimeFragment extends Fragment {
     private Crime mCrime;
     private File mPhotoFile;
     private EditText mTitleField;
+    private EditText number;
     private Button mDateButton;
     private Button mTimeButton;
+    private Button telefon;
     private CheckBox mSolvedCheckBox;
 
     public static CrimeFragment newInstance(UUID crimeId) {
@@ -75,6 +75,7 @@ public class CrimeFragment extends Fragment {
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
         mPhotoFile = CrimeLab.get(getActivity()).getPhotoFile(mCrime);
     }
+
 
     @Override
     public void onPause() {
@@ -132,6 +133,17 @@ public class CrimeFragment extends Fragment {
                 dialog.show(manager, DIALOG_TIME);
             }
         });
+        telefon=(Button) v.findViewById(R.id.telefon);
+        telefon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:"));
+                startActivity(intent);
+            }
+        });
+
+
 
         mSolvedCheckBox = (CheckBox) v.findViewById(R.id.crime_solved);// Прослушивание изменений Checkbox
         mSolvedCheckBox.setChecked(mCrime.isSolved());
@@ -204,6 +216,7 @@ public class CrimeFragment extends Fragment {
 
         return v;
     }
+
 
     private void updateDate() {
         mDateButton.setText(getDateInstance().format(mCrime.getDate()));
@@ -296,4 +309,5 @@ public class CrimeFragment extends Fragment {
         }
 
     }
+
 }
