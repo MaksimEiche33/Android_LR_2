@@ -170,10 +170,9 @@ public class CrimeFragment extends Fragment {
         });
 
         PackageManager packageManager = getActivity().getPackageManager();
-        /*if (packageManager.resolveActivity(pickContact,PackageManager.MATCH_DEFAULT_ONLY) == null) {
+        if (packageManager.resolveActivity(pickContact,PackageManager.MATCH_DEFAULT_ONLY) == null) {
             mSuspectButton.setEnabled(false);
-            fortelefon =0;
-        }*/
+        }
 
         telefon=(Button) v.findViewById(R.id.telefon);  // кнопка звонка подозреваемому
         telefon.setOnClickListener(new View.OnClickListener() {
