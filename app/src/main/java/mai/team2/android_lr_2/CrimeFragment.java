@@ -26,7 +26,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
-
+import android.provider.ContactsContract.Contacts;
 
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
@@ -46,6 +46,7 @@ public class CrimeFragment extends Fragment {
     private static final int REQUEST_CONTACT = 1;
     private static final int REQUEST_PHOTO= 2;
     private static final int REQUEST_TIME = 3;
+    private int fortelefon;
     private Button mSuspectButton;
     private Button mReportButton;
     private Button mDeleteButton;
@@ -133,15 +134,7 @@ public class CrimeFragment extends Fragment {
                 dialog.show(manager, DIALOG_TIME);
             }
         });
-        telefon=(Button) v.findViewById(R.id.telefon);
-        telefon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:"));
-                startActivity(intent);
-            }
-        });
+
 
 
 
@@ -179,7 +172,20 @@ public class CrimeFragment extends Fragment {
         PackageManager packageManager = getActivity().getPackageManager();
         if (packageManager.resolveActivity(pickContact,PackageManager.MATCH_DEFAULT_ONLY) == null) {
             mSuspectButton.setEnabled(false);
+            fortelefon =0;
         }
+
+        telefon=(Button) v.findViewById(R.id.telefon);  // кнопка звонка подозреваемому
+        telefon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:"));
+                startActivity(intent);
+            }
+        });
+        if (fortelefon == 0) {            // кнопка звонка подозреваемому блокируется, если невозможно выбрать самого подозреваемого
+            telefon.setEnabled(false);}
 
         mDeleteButton = (Button) v.findViewById(R.id.crime_delete);
         mDeleteButton.setOnClickListener(new View.OnClickListener() {
