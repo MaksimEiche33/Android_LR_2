@@ -26,7 +26,26 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.content.Context;
+import android.content.ContentResolver;
 import android.provider.ContactsContract.Contacts;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.Manifest;
+import android.content.ContentResolver;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.view.View;
+import android.widget.Button;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
@@ -60,6 +79,8 @@ public class CrimeFragment extends Fragment {
     private Button mTimeButton;
     private Button telefon;
     private CheckBox mSolvedCheckBox;
+    private String Name;
+
 
     public static CrimeFragment newInstance(UUID crimeId) {
         Bundle args = new Bundle();
@@ -74,7 +95,7 @@ public class CrimeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         UUID crimeId = (UUID) getArguments().getSerializable(ARG_CRIME_ID);
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
-        mPhotoFile = CrimeLab.get(getActivity()).getPhotoFile(mCrime);
+
     }
 
 
@@ -166,13 +187,14 @@ public class CrimeFragment extends Fragment {
         mSuspectButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startActivityForResult(pickContact, REQUEST_CONTACT);
+                /*getContactPhoneNumber();*/
             }
         });
-
+//
         PackageManager packageManager = getActivity().getPackageManager();
-        if (packageManager.resolveActivity(pickContact,PackageManager.MATCH_DEFAULT_ONLY) == null) {
+       /* if (packageManager.resolveActivity(pickContact,PackageManager.MATCH_DEFAULT_ONLY) == null) {
             mSuspectButton.setEnabled(false);
-        }
+        }*/
 
         telefon=(Button) v.findViewById(R.id.telefon);  // кнопка звонка подозреваемому
         telefon.setOnClickListener(new View.OnClickListener() {
@@ -181,6 +203,7 @@ public class CrimeFragment extends Fragment {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse("tel:"));
                 startActivity(intent);
+                /*callSuspect();*/
             }
         });
         /*if (fortelefon == 0) {            // кнопка звонка подозреваемому блокируется, если нет контактных приложений
@@ -254,6 +277,7 @@ public class CrimeFragment extends Fragment {
         return report;
     }
 
+    @SuppressLint("Range")
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != Activity.RESULT_OK) {
@@ -278,8 +302,27 @@ public class CrimeFragment extends Fragment {
             };
             // Выполнение запроса - contactUri здесь выполняет функции
             // условия "where"
-            Cursor c = getActivity().getContentResolver()
-                    .query(contactUri, queryFields, null, null, null);
+            //String phoneNumber="";
+            Cursor c = getActivity().getContentResolver().query(contactUri, queryFields, null, null, null);
+            //String contactId = c.getString(c.getColumnIndex(ContactsContract.Contacts._ID));
+            /*@SuppressLint("Range") String hasPhone = c.getString(c.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));*/
+           // ContentResolver contentResolver = getContext().getContentResolver();
+            /*if ( hasPhone.equalsIgnoreCase("1"))
+                hasPhone = "true";
+            else
+                hasPhone = "false" ;*/
+
+            //if (Boolean.parseBoolean(hasPhone))
+            //{
+               // Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = "+ contactId,null, null);
+               // while (phones.moveToNext())
+                //{
+                   // phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                //}
+                //phones.close();
+                //telefon.setText(phoneNumber);
+            //}
+            //
             try {
                 // Проверка получения результатов
                 if (c.getCount() == 0) {
@@ -301,6 +344,7 @@ public class CrimeFragment extends Fragment {
                     Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             updatePhotoView();
         }
+
     }
     private void updatePhotoView() {
         if (mPhotoFile == null || !mPhotoFile.exists()) {
@@ -313,6 +357,33 @@ public class CrimeFragment extends Fragment {
                     getString(R.string.crime_photo_image_description));
         }
 
+    }
+    private void callSuspect() {
+        String buttonText = mSuspectButton.getText().toString();
+        ContentResolver contentResolver = getContentResolver();
+        String contactName = buttonText;
+        String phoneNumber = getPhoneNumberByName(contactName, null);
+
+        if (phoneNumber != null) {
+            Uri number = Uri.parse("tel:" + phoneNumber);
+            Intent intent = new Intent(Intent.ACTION_DIAL, number);
+            startActivity(intent);
+        }
+    }
+    private String getPhoneNumberByName(String contactName, ContentResolver contentResolver) {
+        String phoneNumber = null;
+        Cursor cursor = contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " = ?", new String[]{contactName}, null);
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                phoneNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            }
+            String numberonbutton = telefon.getText().toString();
+            cursor.close();
+        }
+
+        return phoneNumber;
     }
 
 }
