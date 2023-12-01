@@ -30,6 +30,7 @@
     <string name="activity_vertical_margin" translatable="false">bbb</string>
     <string name="crime_delete_text" translatable="false">Delete</string>
     <string name="add_crime" translatable="false">Add Crime</string>
+    <string name="photo_dialog_title">photo Crime</string>
     <plurals name="subtitle_plural" translatable="false">
         <item quantity="one">%1$d crime</item>
         <item quantity="other">%1$d crimes</item>

@@ -2,6 +2,8 @@ package mai.team2.android_lr_2;
 
 import static java.text.DateFormat.getDateInstance;
 
+import static mai.team2.android_lr_2.PhotoDialogFragment.*;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -28,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.provider.ContactsContract.Contacts;
 
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -40,8 +43,9 @@ import java.util.UUID;
 
 public class CrimeFragment extends Fragment {
     private static final String ARG_CRIME_ID = "crime_id";
-    private static final String DIALOG_DATE = "DialogDate"; // константа для метки DatePickerFragment
+    private static final String DIALOG_DATE = "DialogDate";                                         // константа для метки DatePickerFragment
     private static final String DIALOG_TIME = "DialogTime";
+    private static final String DIALOG_BITMAP = "DialogBitmap";
     private static final int REQUEST_DATE = 0;
     private static final int REQUEST_CONTACT = 1;
     private static final int REQUEST_PHOTO= 2;
@@ -209,9 +213,11 @@ public class CrimeFragment extends Fragment {
         mOpenPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 FragmentManager manager = getActivity().getSupportFragmentManager();
-                PhotoDialogFragment myPhotoDialogFragment = new PhotoDialogFragment();
-                myPhotoDialogFragment.show (manager, "myDialog");
+
+                PhotoDialogFragment myPhotoDialogFragment = PhotoDialogFragment.newInstance(mPhotoFile.getPath());
+                myPhotoDialogFragment.show (manager, DIALOG_TIME);
             }
         });
 
@@ -325,10 +331,9 @@ public class CrimeFragment extends Fragment {
     }
     private void updatePhotoView() {
         if (mPhotoFile == null || !mPhotoFile.exists()) {
-            mPhotoView.setImageDrawable(null);
+            mPhotoView.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.bdfccdc82b85cc712b9b5));
         } else {
-            Bitmap bitmap = PictureUtils.getScaledBitmap(
-                    mPhotoFile.getPath(), getActivity());
+            Bitmap bitmap = PictureUtils.getScaledBitmap(mPhotoFile.getPath(), getActivity());
             mPhotoView.setImageBitmap(bitmap);
             mPhotoView.setContentDescription(
                     getString(R.string.crime_photo_image_description));
