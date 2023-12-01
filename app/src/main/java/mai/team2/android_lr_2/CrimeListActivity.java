@@ -21,8 +21,17 @@ public class CrimeListActivity extends SingleFragmentActivity
         return new CrimeListFragment();
     }
 
+
     @Override
     public void onCrimeSelected(Crime crime) {
-
+        if (findViewById(R.id.detail_fragment_container) == null) {
+            Intent intent = CrimeActivity.newIntent(this, crime.getId());
+            startActivity(intent);
+        } else {
+            Fragment newDetail = CrimeFragment.newInstance(crime.getId());
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.detail_fragment_container, newDetail)
+                    .commit();
+        }
     }
 }
