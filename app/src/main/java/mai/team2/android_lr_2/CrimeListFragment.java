@@ -154,7 +154,6 @@ public class CrimeListFragment extends Fragment{
             mAdapter = new CrimeAdapter(crimes);
             mCrimeRecyclerView.setAdapter(mAdapter);
 
-
         } else {
             mAdapter.setCrimes(crimes);
             if (crimeLab.isDelete == false){
@@ -189,10 +188,11 @@ public class CrimeListFragment extends Fragment{
             mDateTextView.setText(getDateInstance().format(mCrime.getDate()) + "  " + DATE_FORMAT.format(mCrime.getDate()));
             mSolvedImageView.setVisibility(crime.isSolved() ? View.VISIBLE :View.GONE);
         }
+
+
         @Override
         public void onClick(View view) {
-            Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
-            startActivity(intent);
+            mCallbacks.onCrimeSelected(mCrime);
             mIdModifiedElement = mPosition;   // добавлено для упражнения из 10 главы
         }
     }
@@ -225,6 +225,7 @@ public class CrimeListFragment extends Fragment{
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    mIdModifiedElement = position;
                     mCallbacks.onCrimeSelected(crime);
                 }
             });
@@ -238,7 +239,7 @@ public class CrimeListFragment extends Fragment{
         }
         @Override
         public int getItemViewType(int position) {
-            if (mCrimes.get(position).isRequiresPolice() == false)
+            if (mCrimes.get(position).isSerious() == false)
                 return TYPE_ITEM_NORMAL;
             return TYPE_ITEM_REQUIRE_SPOLICE;
         }

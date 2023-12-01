@@ -11,7 +11,7 @@ public class Crime {
     private boolean mSolved; // состояние преступления раскрыто/не раскрыто
 
     private String mSuspect; // имя подозреваемого
-    private boolean mRequiresPolice;
+    private boolean mSerious;
 
     public Crime() {
         this(UUID.randomUUID());
@@ -20,6 +20,7 @@ public class Crime {
     public Crime(UUID id) {
         mId = id;
         mDate = new Date();
+        mSerious = true;
     }
 
     public UUID getId() {
@@ -56,11 +57,11 @@ public class Crime {
     public void setSuspect(String suspect) {
         mSuspect = suspect;
     }
-    public boolean isRequiresPolice() {
-        return mRequiresPolice;
+    public boolean isSerious() {
+        return mSerious;
     }
-    public void setRequiresPolice(boolean RequiresPolice) {
-        mRequiresPolice = RequiresPolice;
+    public void setSerious(boolean Serious) {
+        mSerious = Serious;
     }
 
     public String getSuspect() {
