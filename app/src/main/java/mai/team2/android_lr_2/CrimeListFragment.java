@@ -2,17 +2,21 @@ package mai.team2.android_lr_2;
 
 import static java.text.DateFormat.*;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,6 +29,7 @@ import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.List;
 
 public class CrimeListFragment extends Fragment{
@@ -33,14 +38,41 @@ public class CrimeListFragment extends Fragment{
     private boolean mSubtitleVisible;
     private int mIdModifiedElement; // добавлено для упражнения из 10 главы
     private static final String SAVED_SUBTITLE_VISIBLE = "subtitle";
+    private Callbacks mCallbacks;
 
+    public interface Callbacks {
+        void onCrimeSelected(Crime crime);
+    }
+    ItemTouchHelper.Callback itemTouchCallback = new ItemTouchHelper.Callback() {                    // колбек обработки для удалений происшествий
+        @Override
+        public int getMovementFlags(RecyclerView recyclerView,RecyclerView.ViewHolder viewHolder) {
+            int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+            int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+            return makeMovementFlags(dragFlags, swipeFlags);
+        }
+
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            mAdapter.deleteCrime(viewHolder.getAdapterPosition());
+        }
+
+    };
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mCallbacks = (Callbacks) context;
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
 
-    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_crime_list, container, false);
@@ -49,6 +81,10 @@ public class CrimeListFragment extends Fragment{
         if (savedInstanceState != null) {
             mSubtitleVisible = savedInstanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);
         }
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(mCrimeRecyclerView);
+
         updateUI();
 
         return view;
@@ -117,6 +153,8 @@ public class CrimeListFragment extends Fragment{
         if (mAdapter == null) {
             mAdapter = new CrimeAdapter(crimes);
             mCrimeRecyclerView.setAdapter(mAdapter);
+
+
         } else {
             mAdapter.setCrimes(crimes);
             if (crimeLab.isDelete == false){
@@ -129,7 +167,7 @@ public class CrimeListFragment extends Fragment{
         updateSubtitle();
     }
 
-    private class CrimeHolder extends RecyclerView.ViewHolder
+    public class CrimeHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
         private TextView mTitleTextView;
         private TextView mDateTextView;
@@ -149,8 +187,7 @@ public class CrimeListFragment extends Fragment{
             mTitleTextView.setText(mCrime.getTitle());
             DateFormat DATE_FORMAT = new SimpleDateFormat("HH:mm");
             mDateTextView.setText(getDateInstance().format(mCrime.getDate()) + "  " + DATE_FORMAT.format(mCrime.getDate()));
-            mSolvedImageView.setVisibility(crime.isSolved() ? View.VISIBLE :
-                    View.GONE);
+            mSolvedImageView.setVisibility(crime.isSolved() ? View.VISIBLE :View.GONE);
         }
         @Override
         public void onClick(View view) {
@@ -159,7 +196,7 @@ public class CrimeListFragment extends Fragment{
             mIdModifiedElement = mPosition;   // добавлено для упражнения из 10 главы
         }
     }
-    private class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder> {
+    public class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder> {
         private final int TYPE_ITEM_NORMAL  = 0;     // типы предсталения СТРОК
         private final int TYPE_ITEM_REQUIRE_SPOLICE = 1;
         private List<Crime> mCrimes;
@@ -184,6 +221,13 @@ public class CrimeListFragment extends Fragment{
         public void onBindViewHolder(CrimeHolder holder, int position) {
             Crime crime = mCrimes.get(position);
             holder.bind(crime, position);
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mCallbacks.onCrimeSelected(crime);
+                }
+            });
         }
         @Override
         public int getItemCount() {
@@ -198,11 +242,21 @@ public class CrimeListFragment extends Fragment{
                 return TYPE_ITEM_NORMAL;
             return TYPE_ITEM_REQUIRE_SPOLICE;
         }
+
+        public void deleteCrime(int position) {
+            CrimeLab.get(getActivity()).deleteCrime(mCrimes.get(position));
+            updateUI();
+        }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(SAVED_SUBTITLE_VISIBLE, mSubtitleVisible);
+    }
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks = null;
     }
 }

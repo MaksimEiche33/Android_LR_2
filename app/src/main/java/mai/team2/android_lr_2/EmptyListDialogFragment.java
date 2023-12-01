@@ -26,12 +26,7 @@ public class EmptyListDialogFragment extends DialogFragment {
                         ((CrimeListActivity) getActivity()).okClicked();
                     }
                 });
-                builder.setNegativeButton("button2String", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                    Toast.makeText(getActivity(), "Возможно вы правы", Toast.LENGTH_LONG).show();
-                    dialog.cancel();
-                    }
-                });
+
                 builder.setCancelable(true);
         return builder.create();
     }

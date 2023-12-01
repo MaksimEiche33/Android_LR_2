@@ -8,7 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-public class CrimeListActivity extends SingleFragmentActivity {
+public class CrimeListActivity extends SingleFragmentActivity
+        implements CrimeListFragment.Callbacks{
     public void okClicked(){
         Crime crime = new Crime();
         CrimeLab.get(this).addCrime(crime);
@@ -18,5 +19,10 @@ public class CrimeListActivity extends SingleFragmentActivity {
     @Override
     protected Fragment createFragment() {
         return new CrimeListFragment();
+    }
+
+    @Override
+    public void onCrimeSelected(Crime crime) {
+
     }
 }
