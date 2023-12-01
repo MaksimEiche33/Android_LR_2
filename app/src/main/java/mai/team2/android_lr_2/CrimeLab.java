@@ -63,8 +63,6 @@ public class CrimeLab {
     public File getPhotoFile(Crime crime) {
         File filesDir = mContext.getFilesDir();
         return new File(filesDir, crime.getPhotoFilename());
-        //if (externalFilesDir == null) {
-
     }
     public void updateCrime(Crime crime){           // обновление записей в базе данных
         String uuidString = crime.getId().toString();

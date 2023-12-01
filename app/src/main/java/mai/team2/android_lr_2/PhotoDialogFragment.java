@@ -4,13 +4,11 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
-public class EmptyListDialogFragment extends DialogFragment {
+public class PhotoDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -26,7 +24,7 @@ public class EmptyListDialogFragment extends DialogFragment {
                     }
                 });
 
-                builder.setCancelable(true);
+        builder.setCancelable(true);
         return builder.create();
     }
 }

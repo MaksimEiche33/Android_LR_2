@@ -51,6 +51,7 @@ public class CrimeFragment extends Fragment {
     private Button mReportButton;
     private Button mDeleteButton;
     private ImageButton mPhotoButton;
+    private ImageButton mOpenPhotoButton;
     private ImageView mPhotoView;
     private Crime mCrime;
     private File mPhotoFile;
@@ -201,6 +202,16 @@ public class CrimeFragment extends Fragment {
             public void onClick(View v) {
                 CrimeLab.deleteCrime(mCrime);
                 getActivity().finish();
+            }
+        });
+
+        mOpenPhotoButton = (ImageButton) v.findViewById(R.id.crime_photo);
+        mOpenPhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = getActivity().getSupportFragmentManager();
+                PhotoDialogFragment myPhotoDialogFragment = new PhotoDialogFragment();
+                myPhotoDialogFragment.show (manager, "myDialog");
             }
         });
 

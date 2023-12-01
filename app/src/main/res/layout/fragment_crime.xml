@@ -24,19 +24,21 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="147dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 tools:layout_editor_absoluteX="24dp"
                 tools:layout_editor_absoluteY="183dp">
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/crime_photo"
-                    android:layout_width="102dp"
+                    android:layout_width="match_parent"
                     android:layout_height="107dp"
                     android:contentDescription="@string/crime_photo_no_image_description"
                     android:focusable="true"
+                    android:scaleType="fitXY"
                     app:srcCompat="@drawable/bdfccdc82b85cc712b9b5" />
+
 
                 <ImageButton
                     android:id="@+id/crime_camera"
@@ -145,44 +147,9 @@
             android:layout_height="wrap_content"
             android:text="Telefon" />
 
-        <!--<EditText
-            android:id="@+id/number"
-            android:layout_width="match_parent"
-            android:layout_height="57dp"
-            android:cursorVisible="true"
-            android:editable="true"
-            android:hint="Введите номер"
-            android:singleLine="true" />
-
-        <Button
-            android:id="@+id/dial"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="dial"
-            android:text="Позвонить" />-->
 
     </LinearLayout>
 
-    <!--<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:cursorVisible="true"
-            android:editable="true"
-            android:hint="Введите номер"
-            android:singleLine="true" />
-
-        <Button android:id="@+id/dial"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Позвонить"
-            android:onClick="dial" />
-    </LinearLayout>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

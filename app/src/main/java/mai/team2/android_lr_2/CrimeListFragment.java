@@ -157,7 +157,7 @@ public class CrimeListFragment extends Fragment{
         } else {
             mAdapter.setCrimes(crimes);
             if (crimeLab.isDelete == false){
-                mAdapter.notifyItemChanged(mIdModifiedElement);// переделано для упражнения из 10 главы
+                mAdapter.notifyItemChanged(mIdModifiedElement);                                     // переделано для упражнения из 10 главы
             } else{
                 mAdapter.notifyDataSetChanged();
                 crimeLab.isDelete = false;
@@ -184,7 +184,7 @@ public class CrimeListFragment extends Fragment{
             mPosition = position;
             mCrime = crime;
             mTitleTextView.setText(mCrime.getTitle());
-            DateFormat DATE_FORMAT = new SimpleDateFormat("HH:mm");
+            DateFormat DATE_FORMAT = new SimpleDateFormat("HH:mm");                          // упр 9
             mDateTextView.setText(getDateInstance().format(mCrime.getDate()) + "  " + DATE_FORMAT.format(mCrime.getDate()));
             mSolvedImageView.setVisibility(crime.isSolved() ? View.VISIBLE :View.GONE);
         }
