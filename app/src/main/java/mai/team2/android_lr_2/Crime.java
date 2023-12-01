@@ -11,7 +11,7 @@ public class Crime {
     private boolean mSolved; // состояние преступления раскрыто/не раскрыто
 
     private String mSuspect; // имя подозреваемого
-    private boolean mSerious;
+    private boolean mSerious; //упр 8 для серьезных преступлений
 
     public Crime() {
         this(UUID.randomUUID());
@@ -20,7 +20,7 @@ public class Crime {
     public Crime(UUID id) {
         mId = id;
         mDate = new Date();
-        mSerious = true;
+        mSerious = false;
     }
 
     public UUID getId() {
@@ -57,7 +57,7 @@ public class Crime {
     public void setSuspect(String suspect) {
         mSuspect = suspect;
     }
-    public boolean isSerious() {
+    public boolean isSerious() {                                                                    //упр 8 для серьезных преступлений
         return mSerious;
     }
     public void setSerious(boolean Serious) {

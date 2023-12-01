@@ -94,6 +94,7 @@ public class CrimeLab {
         values.put(CrimeTable.Cols.TITLE, crime.getTitle());
         values.put(CrimeTable.Cols.DATE, crime.getDate().getTime());
         values.put(CrimeTable.Cols.SOLVED, crime.isSolved() ? 1:0);
+        values.put(CrimeTable.Cols.SERIOUS, crime.isSerious() ? 1:0);                               //упр 8 для серьезных преступлений
         values.put(CrimeTable.Cols.SUSPECT, crime.getSuspect());
         return values;
     }

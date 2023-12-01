@@ -206,15 +206,14 @@ public class CrimeListFragment extends Fragment{
         @Override
         public CrimeHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            View v = layoutInflater.inflate(R.layout.list_item_crime, parent, false); // код для упражнения из 8 главы
+            View v;
 
-            switch (viewType) {
-                case TYPE_ITEM_NORMAL:
-                    v = layoutInflater.inflate(R.layout.list_item_crime, parent, false);
-                    break;
-                case TYPE_ITEM_REQUIRE_SPOLICE:
-                    v = layoutInflater.inflate(R.layout.list_item_crime_requires_police, parent, false);
+            if (viewType == TYPE_ITEM_REQUIRE_SPOLICE){
+                v = layoutInflater.inflate(R.layout.list_item_crime_serious, parent, false);
+            } else{
+                v = layoutInflater.inflate(R.layout.list_item_crime, parent, false);     // упр 8 отображение специального отображения
             }
+
             return new CrimeHolder(v);
         }
         @Override
