@@ -31,7 +31,7 @@ public class PhotoDialogFragment extends DialogFragment {
     private Button mPositiveButton;
     private ImageView mCrimePhoto;
 
-    public static PhotoDialogFragment newInstance(String path) {
+    public static PhotoDialogFragment newInstance(String path) {                                     // создание аргументов ФРАГМЕНТА
         Bundle args = new Bundle();
         args.putSerializable(ARG_PATH, path);
         PhotoDialogFragment fragment = new PhotoDialogFragment();
@@ -42,14 +42,13 @@ public class PhotoDialogFragment extends DialogFragment {
     @Nullable
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        String path = (String) getArguments().getSerializable(ARG_PATH);
-        Toast.makeText(getActivity(),path,Toast.LENGTH_LONG).show();
-        Bitmap bitmap = PictureUtils.getScaledBitmap(path, getActivity());
+        String path = (String) getArguments().getSerializable(ARG_PATH);                                   // получение пути фото из аргумента
+        Bitmap bitmap = PictureUtils.getScaledBitmap(path, getActivity());                                 // получение сжатого изображения
 
         View inflatedView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_photo, null);
 
-        mCrimePhoto = inflatedView.findViewById(R.id.crime_photo);
-        //mCrimePhoto.setImageBitmap(bitmap);
+        mCrimePhoto = inflatedView.findViewById(R.id.crime_big_photo);
+        mCrimePhoto.setImageBitmap(bitmap);                                                                // отображение изображения
 
         mPositiveButton = (Button) inflatedView.findViewById(R.id.btn1);
         mPositiveButton.setOnClickListener(new View.OnClickListener() {

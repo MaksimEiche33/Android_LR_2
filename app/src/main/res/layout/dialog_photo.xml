@@ -16,9 +16,9 @@
 
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/crime_big_photo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:srcCompat="@drawable/bdfccdc82b85cc712b9b5" />
 
     <Button
